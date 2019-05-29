@@ -1,0 +1,69 @@
+{
+  "request.id": "",
+  "request.operationID": "",
+  "request.length": 0,
+  "request.method": "GET",
+  "request.client": "[::1]:54554",
+  "request.path": "/ask",
+  "request.requestTime": 17571710,
+  "id": "3d67e4ce-9cff-5e36-98a6-7e2ad8fc572b",
+  "@timestamp": "2019-05-16T13:56:50.286980848+02:00",
+  "request.header": {
+    "Accept": [
+      "*/*"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate"
+    ],
+    "Cache-Control": [
+      "no-cache"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Postman-Token": [
+      "6af64165-0af9-4ddc-ae3e-214acf768690"
+    ],
+    "User-Agent": [
+      "PostmanRuntime/7.6.0"
+    ],
+    "X-Ditas-Operationid": [
+      ""
+    ],
+    "X-Ditas-Requestid": [
+      "3d67e4ce-9cff-5e36-98a6-7e2ad8fc572b"
+    ],
+    "X-Ditas-Sample": [
+      "1"
+    ]
+  },
+  "response": {
+    "request.id": "",
+    "request.operationID": "",
+    "request.length": 0,
+    "request.requestTime": 0,
+    "response.code": 200,
+    "response.length": 20,
+    "id": "6d4b262c-05ee-5e71-bb54-30ee54c4a339",
+    "@timestamp": "2019-05-16T15:49:46.16343579+02:00",
+    "response.body": "{\"mgs\":\"Hello Dal!\"}",
+    "response.header": {
+      "Access-Control-Allow-Headers": [
+        "*"
+      ],
+      "Access-Control-Allow-Origin": [
+        "*"
+      ],
+      "Content-Length": [
+        "20"
+      ],
+      "Content-Type": [
+        "application/json"
+      ],
+      "Date": [
+        "Thu, 16 May 2019 13:49:46 GMT"
+      ]
+    }
+  }
+}
+
