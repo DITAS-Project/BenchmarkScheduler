@@ -2,7 +2,6 @@ package de.tub.benchmarkscheduler.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.List;
@@ -14,7 +13,30 @@ public class Workload {
     @GeneratedValue
     @Id
     private String id;
-    private List<Payload> payloads;
+
+    private List<List<BenchmarkRequest>> requests;
+
+    private int delay;
+
+    private int iterations;
+
+    private int warmup;
+
+    private String strategy;
+
+    private String token;
+
+    private int threads;
+
+    private boolean isExecutable;
+
+    public List<List<BenchmarkRequest>> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<List<BenchmarkRequest>> requests) {
+        this.requests = requests;
+    }
 
     public String getId() {
         return id;
@@ -24,11 +46,60 @@ public class Workload {
         this.id = id;
     }
 
-    public List<Payload> getPayloads() {
-        return payloads;
+    public int getDelay() {
+        return delay;
     }
 
-    public void setPayloads(List<Payload> payloads) {
-        this.payloads = payloads;
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+    }
+
+    public int getWarmup() {
+        return warmup;
+    }
+
+    public void setWarmup(int warmup) {
+        this.warmup = warmup;
+    }
+
+    public String getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(String strategy) {
+        this.strategy = strategy;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getThreads() {
+        return threads;
+    }
+
+    public void setThreads(int threads) {
+        this.threads = threads;
+    }
+
+    public boolean isExecutable() {
+        return isExecutable;
+    }
+
+    public void setExecutable(boolean executable) {
+        isExecutable = executable;
     }
 }
+

@@ -1,6 +1,6 @@
 package de.tub.benchmarkscheduler.service.workload;
 
-import de.tub.benchmarkscheduler.data.WorkloadRepository;
+import de.tub.benchmarkscheduler.repo.WorkloadRepository;
 import de.tub.benchmarkscheduler.model.Workload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class WorkloadDataServiceImpl implements WorkloadDataService {
+
     @Autowired
     WorkloadRepository repo;
 
@@ -31,12 +32,14 @@ public class WorkloadDataServiceImpl implements WorkloadDataService {
     }
 
     @Override
-    public void deleteAll() {
+    public boolean deleteAll() {
         repo.deleteAll();
+        return true;
+
     }
 
     @Override
     public Workload findByID(String id) {
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 }

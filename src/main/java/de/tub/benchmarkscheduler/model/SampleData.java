@@ -34,9 +34,10 @@ public class SampleData {
     @JsonAlias("response.header")
     private Map<String, List<String>> responseHeader;
 
+    @JsonAlias("vdc_id")
     private String vdcID;
 
-    //blueprint id
+    @JsonAlias("blueprint_id")
     private String bpId;
 
 

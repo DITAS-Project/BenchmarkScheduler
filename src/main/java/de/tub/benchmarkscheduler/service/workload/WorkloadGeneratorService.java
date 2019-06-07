@@ -5,7 +5,9 @@ import de.tub.benchmarkscheduler.model.Workload;
 public interface WorkloadGeneratorService {
 
 
-    Workload generate(WorkloadStrategy strategy, String bpId);
+    Workload generateWorkload(WorkloadStrategy strategy, String bpId);
+
+    Workload genereateExcWorkload(String workloadId, String token, String vdcId);
 
     String generateDefault(String bpId);
 }
