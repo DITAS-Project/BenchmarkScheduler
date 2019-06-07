@@ -1,6 +1,6 @@
 package de.tub.benchmarkscheduler.service;
 
-import de.tub.benchmarkscheduler.data.SampleDataRepository;
+import de.tub.benchmarkscheduler.repo.SampleDataRepository;
 import de.tub.benchmarkscheduler.model.SampleData;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class SampleDataServiceImpl implements SampleDataService {
 
     @Override
     public SampleData findById(String id) {
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SampleDataServiceImpl implements SampleDataService {
      * @param document
      * @return update
      */
-    public static Update fromDocumentExcludeNullFields(Document document) {
+    private static Update fromDocumentExcludeNullFields(Document document) {
         Update update = new Update();
         for (String key : document.keySet()) {
             Object value = document.get(key);

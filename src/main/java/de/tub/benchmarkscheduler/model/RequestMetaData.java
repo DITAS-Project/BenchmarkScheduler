@@ -1,12 +1,13 @@
 package de.tub.benchmarkscheduler.model;
 
-public class RequestMetaData{
+public class RequestMetaData {
 
 
     private int warmup;
     private int iterations;
-    @Deprecated
-    private int variance;
+
+
+    private int threads;
 
     private int delay;
     private String baseUrl;
@@ -28,14 +29,6 @@ public class RequestMetaData{
         this.iterations = iterations;
     }
 
-    public int getVariance() {
-        return variance;
-    }
-
-    public void setVariance(int variance) {
-        this.variance = variance;
-    }
-
     public int getDelay() {
         return delay;
     }
@@ -52,4 +45,11 @@ public class RequestMetaData{
         this.baseUrl = baseUrl;
     }
 
+    public int getThreads() {
+        return threads;
+    }
+
+    public void setThreads(int threads) {
+        this.threads = threads;
+    }
 }

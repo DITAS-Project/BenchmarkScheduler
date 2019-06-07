@@ -1,16 +1,11 @@
 package de.tub.benchmarkscheduler.service.workload;
 
-import de.tub.benchmarkscheduler.data.SampleDataRepository;
 import de.tub.benchmarkscheduler.model.*;
-import de.tub.benchmarkscheduler.service.SampleDataService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class DefaultWorkloadStrategy implements WorkloadStrategy {
@@ -20,50 +15,56 @@ public class DefaultWorkloadStrategy implements WorkloadStrategy {
     public Workload generate(RequestMetaData metaData, List<SampleData> data) {
         Workload workload = new Workload();
 
-        List<Payload> payloads = new LinkedList<>();
+        List<List<BenchmarkRequest>> requests = new LinkedList<>();
 
         //generate Payloads from Sampledata with one Request per Payload
-        for (SampleData s : data) payloads.add(generatePayload(s, metaData));
+        for (SampleData s : data) requests.add(generateRequests(s));
 
-        workload.setPayloads(payloads);
+        workload.setRequests(requests);
+
+        //set workload meta repo
+        workload.setDelay(10);
+        workload.setExecutable(false);
+        workload.setIterations(20);
+        workload.setWarmup(10);
+        workload.setThreads(1);
         return workload;
     }
 
     /**
-     * creates Payload with one benchmark request from sampledata
+     * creates one benchmark request from sampledata
+     *
      * @param data
      * @return
      */
-    private Payload generatePayload(SampleData data, RequestMetaData metaData) {
-        Payload ret = new Payload();
+    private List<BenchmarkRequest> generateRequests(SampleData data) {
 
         //build BenchmarkRequest
         BenchmarkRequest request = makeRequest(data);
-        ret.setRequest(Arrays.asList(request));
-        ret.setMetaData(metaData);
-    return ret;
+
+        return Arrays.asList(request);
     }
 
 
     /**
-     * Overloaded method to create payload with multiple benchmark requests
+     * Overloaded method to create  multiple benchmark requests
+     *
      * @param data
      * @return
      */
-    private Payload generatePayload(Iterable<SampleData> data, RequestMetaData metaData){
-        Payload ret= new Payload();
+    private List<BenchmarkRequest> generateRequests(Iterable<SampleData> data, RequestMetaData metaData) {
 
-        List<BenchmarkRequest> requests= new LinkedList<>();
+        List<BenchmarkRequest> requests = new LinkedList<>();
 
         for(SampleData s:data)requests.add(makeRequest(s));
 
-        ret.setRequest(requests);
-        ret.setMetaData(metaData);
-        return ret;
+
+        return requests;
     }
 
     /**
      * Generates benchmark request from sampledata
+     *
      * @param data
      * @return
      */
@@ -71,7 +72,7 @@ public class DefaultWorkloadStrategy implements WorkloadStrategy {
         BenchmarkRequest request = new BenchmarkRequest();
 
         //build valid response
-        ValidResponse response= new ValidResponse();
+        ValidResponse response = new ValidResponse();
         response.setResponseBody(data.getResponseBody());
         response.setResponseCode(data.getResponseCode());
         response.setResponseHeader(data.getResponseHeader());

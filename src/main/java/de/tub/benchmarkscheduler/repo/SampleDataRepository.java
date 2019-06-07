@@ -1,8 +1,7 @@
-package de.tub.benchmarkscheduler.data;
+package de.tub.benchmarkscheduler.repo;
 
 import de.tub.benchmarkscheduler.model.SampleData;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
