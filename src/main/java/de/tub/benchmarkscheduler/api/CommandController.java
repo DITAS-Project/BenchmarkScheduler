@@ -5,13 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import de.tub.benchmarkscheduler.exceptions.WorkloadAlreadyExecuabaleException;
 import de.tub.benchmarkscheduler.exceptions.WorkloadNotFoundException;
 import de.tub.benchmarkscheduler.model.SampleData;
+import de.tub.benchmarkscheduler.model.StartRequest;
 import de.tub.benchmarkscheduler.model.Workload;
 import de.tub.benchmarkscheduler.service.SampleDataService;
 import de.tub.benchmarkscheduler.service.workload.WorkloadGeneratorService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -43,19 +41,19 @@ public class CommandController {
     @Autowired
     WorkloadGeneratorService workloadService;
 
-    @ApiOperation(value = "returns all collected requests", response = SampleData[].class, produces = "application/json")
+    @ApiOperation(value = "returns all collected requests", response = SampleData[].class, produces = "application/json", httpMethod = "GET")
     @RequestMapping("/all")
     public List<SampleData> getAll() {
         return dataService.findAll();
     }
 
-    @ApiOperation(value = "deletes all collected requests")
+    @ApiOperation(value = "deletes all collected requests", httpMethod = "GET")
     @RequestMapping("/delete")
     public void delete() {
         dataService.deleteAll();
     }
 
-    @ApiOperation(value = "generates a workload based on the given blueprint")
+    @ApiOperation(value = "generates a workload based on the given blueprint", httpMethod = "POST")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "workload created")
     })
@@ -68,31 +66,31 @@ public class CommandController {
 
     }
 
-    @ApiOperation(value = "generates an executable workload based on the vdc_id and token and starts the Benchmark workers")
+    @ApiOperation(value = "generates an executable workload based on the vdc_id and token and starts the Benchmark workers", httpMethod = "POST")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "benchmark started"),
             @ApiResponse(code = 400, message = "missing workload_id"),
-            @ApiResponse(code = 400, message = "missing vdc_id")
+            @ApiResponse(code = 400, message = "missing vdc_id"),
+            @ApiResponse(code = 302, message = "workload already created")
     })
-    @RequestMapping("/start")
-    public ResponseEntity start(@RequestBody JsonNode body) {
-        JsonNode wlId = body.get("workload_id");
-        JsonNode token = body.get("token");
-        JsonNode vdcId = body.get("vdc_id");
+    @RequestMapping(value = "/start", method = RequestMethod.POST)
+    public ResponseEntity start(@RequestBody StartRequest body) {
+
 
         //existence check on the input parameters
-        if (wlId == null) return ResponseEntity.badRequest().body("missing workload_id");
-        if (vdcId == null) return ResponseEntity.badRequest().body("missing vdc_id");
-        String tokenString = "";
-        if (token != null) tokenString = token.asText();
+        String wlId = body.getWlId();
+        String vdcId= body.getVdcId();
+        if (wlId == null|| wlId=="") return ResponseEntity.badRequest().body("missing workload_id");
+        if (vdcId == null || vdcId=="") return ResponseEntity.badRequest().body("missing vdc_id");
+
 
         Workload excWl;
         try {
-            excWl= workloadService.genereateExcWorkload(wlId.asText(), tokenString, vdcId.asText());
-        }catch (WorkloadNotFoundException e){
-            return ResponseEntity.badRequest().body("workload "+wlId.asText()+" not found");
-        }catch (WorkloadAlreadyExecuabaleException e){
-            return ResponseEntity.status(302).header("Location",("http://" + address + ":" + port + contextPath + "/benchmark/" + e.getRunId())).build();
+            excWl = workloadService.genereateExcWorkload(wlId, body.getToken(), vdcId);
+        } catch (WorkloadNotFoundException e) {
+            return ResponseEntity.badRequest().body("workload " + wlId + " not found");
+        } catch (WorkloadAlreadyExecuabaleException e) {
+            return ResponseEntity.status(302).header("Location", ("http://" + address + ":" + port + contextPath + "/benchmark/" + e.getRunId())).build();
         }
 
 

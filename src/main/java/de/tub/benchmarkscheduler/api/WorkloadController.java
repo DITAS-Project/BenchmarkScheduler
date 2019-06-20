@@ -22,10 +22,12 @@ package de.tub.benchmarkscheduler.api;
 
 import de.tub.benchmarkscheduler.model.Workload;
 import de.tub.benchmarkscheduler.service.workload.WorkloadDataService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,17 +39,20 @@ public class WorkloadController {
     @Autowired
     WorkloadDataService workloadDataService;
 
+    @ApiOperation(value = "returns a Workload for the given ID", response = Workload.class, httpMethod = "GET")
     @RequestMapping("/{wlId}")
     public Workload getWLByID(@PathVariable String wlId) {
         return workloadDataService.findByID(wlId);
     }
 
+    @ApiOperation(value = "returns all available Workloads", response = Workload[].class, httpMethod = "GET")
     @RequestMapping("/all")
     public List<Workload> getAllWl() {
         return workloadDataService.getAll();
     }
 
-    @RequestMapping("/delete")
+    @ApiOperation(value = "deletes all Workloads", httpMethod = "DELETE")
+    @RequestMapping(method = RequestMethod.DELETE)
     public void deleteWlAll() {
         workloadDataService.deleteAll();
     }

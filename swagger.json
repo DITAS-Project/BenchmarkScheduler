@@ -1,0 +1,846 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api Documentation",
+    "version": "1.0",
+    "title": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {},
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "localhost:8081",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "benchmark-controller",
+      "description": "endpoint used by the benchmark runners"
+    },
+    {
+      "name": "command-controller",
+      "description": "DITAS Service for automated benchmarking"
+    },
+    {
+      "name": "sample-data-controller",
+      "description": "Sample Data Controller"
+    },
+    {
+      "name": "workload-controller",
+      "description": "Workload Controller"
+    }
+  ],
+  "paths": {
+    "/benchmark/{runID}": {
+      "get": {
+        "tags": [
+          "benchmark-controller"
+        ],
+        "summary": "returns an executable workload for the given id",
+        "operationId": "getWorkloadUsingGET_7",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "runID",
+            "in": "path",
+            "description": "runID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Workload"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "No workload for the given id found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "benchmark-controller"
+        ],
+        "summary": "Endpoint for the Benchmark Agents to post the results ",
+        "operationId": "collectResultsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "result",
+            "description": "result",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RawResult"
+            }
+          },
+          {
+            "name": "runID",
+            "in": "path",
+            "description": "runID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/collect": {
+      "post": {
+        "tags": [
+          "sample-data-controller"
+        ],
+        "summary": "Endpoint used to collect real Request data from the RM",
+        "operationId": "receiveSampleUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SampleData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/command/all": {
+      "get": {
+        "tags": [
+          "command-controller"
+        ],
+        "summary": "returns all collected requests",
+        "operationId": "getAllUsingGET_7",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SampleData"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/command/create": {
+      "post": {
+        "tags": [
+          "command-controller"
+        ],
+        "summary": "generates a workload based on the given blueprint",
+        "operationId": "createUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "blueprintID",
+            "in": "query",
+            "description": "blueprintID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "workload created",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/command/delete": {
+      "get": {
+        "tags": [
+          "command-controller"
+        ],
+        "summary": "deletes all collected requests",
+        "operationId": "deleteUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/command/start": {
+      "post": {
+        "tags": [
+          "command-controller"
+        ],
+        "summary": "generates an executable workload based on the vdc_id and token and starts the Benchmark workers",
+        "operationId": "startUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StartRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "benchmark started",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "302": {
+            "description": "workload already created"
+          },
+          "400": {
+            "description": "missing workload_id"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/wl": {
+      "delete": {
+        "tags": [
+          "workload-controller"
+        ],
+        "summary": "deletes all Workloads",
+        "operationId": "deleteWlAllUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/wl/all": {
+      "get": {
+        "tags": [
+          "workload-controller"
+        ],
+        "summary": "returns all available Workloads",
+        "operationId": "getAllWlUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Workload"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/wl/{wlId}": {
+      "get": {
+        "tags": [
+          "workload-controller"
+        ],
+        "summary": "returns a Workload for the given ID",
+        "operationId": "getWLByIDUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "wlId",
+            "in": "path",
+            "description": "wlId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Workload"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BenchmarkRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "e739b640-7885-51a9-8046-e68578ab6640",
+          "allowEmptyValue": false
+        },
+        "method": {
+          "type": "string",
+          "example": "GET",
+          "allowEmptyValue": false
+        },
+        "path": {
+          "type": "string",
+          "example": "/ask",
+          "allowEmptyValue": false
+        },
+        "requestHeader": {
+          "type": "object",
+          "example": {
+            "X-Ditas-Operationid": [
+              ""
+            ],
+            "X-Ditas-Requestid": [
+              "e739b640-7885-51a9-8046-e68578ab6640"
+            ],
+            "X-Ditas-Sample": [
+              "1"
+            ]
+          },
+          "allowEmptyValue": false,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "title": "BenchmarkRequest"
+    },
+    "BenchmarkResponse": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "example": {
+            "mgs": "Hello Dal!"
+          },
+          "allowEmptyValue": false
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "example": 153,
+          "allowEmptyValue": false
+        },
+        "headers": {
+          "type": "object",
+          "example": {
+            "X-Ditas-Operationid": [
+              ""
+            ],
+            "X-Ditas-Requestid": [
+              "e739b640-7885-51a9-8046-e68578ab6640"
+            ],
+            "X-Ditas-Sample": [
+              "1"
+            ]
+          },
+          "allowEmptyValue": false,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "reqId": {
+          "type": "string",
+          "example": "e739b640-7885-51a9-8046-e68578ab6640",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "BenchmarkResponse"
+    },
+    "RawResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "unique_benchmark_id",
+          "allowEmptyValue": false
+        },
+        "metaData": {
+          "$ref": "#/definitions/RequestMetaData"
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BenchmarkResponse"
+          }
+        },
+        "runnerId": {
+          "type": "string",
+          "example": "fsaöfködsl-afköll",
+          "allowEmptyValue": false
+        },
+        "vdcId": {
+          "type": "string",
+          "example": "afköll",
+          "allowEmptyValue": false
+        },
+        "wlId": {
+          "type": "string",
+          "example": "fsaöfködsl",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "RawResult"
+    },
+    "RequestMetaData": {
+      "type": "object",
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "example": "localhost:80",
+          "allowEmptyValue": false
+        },
+        "delay": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "allowEmptyValue": false
+        },
+        "iterations": {
+          "type": "integer",
+          "format": "int32",
+          "example": 20,
+          "allowEmptyValue": false
+        },
+        "threads": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "allowEmptyValue": false
+        },
+        "warmup": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10,
+          "allowEmptyValue": false
+        }
+      },
+      "title": "RequestMetaData"
+    },
+    "ResponseEntity": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "statusCode": {
+          "type": "string",
+          "enum": [
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "statusCodeValue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ResponseEntity"
+    },
+    "SampleData": {
+      "type": "object",
+      "properties": {
+        "bpId": {
+          "type": "string",
+          "example": "blueprint1",
+          "allowEmptyValue": false
+        },
+        "id": {
+          "type": "string",
+          "example": "e739b640-7885-51a9-8046-e68578ab6640",
+          "allowEmptyValue": false
+        },
+        "method": {
+          "type": "string",
+          "example": "GET",
+          "allowEmptyValue": false
+        },
+        "path": {
+          "type": "string",
+          "example": "/ask",
+          "allowEmptyValue": false
+        },
+        "requestHeader": {
+          "type": "object",
+          "example": {
+            "X-Ditas-Operationid": [
+              ""
+            ],
+            "X-Ditas-Requestid": [
+              "e739b640-7885-51a9-8046-e68578ab6640"
+            ],
+            "X-Ditas-Sample": [
+              "1"
+            ]
+          },
+          "allowEmptyValue": false,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "responseBody": {
+          "type": "string",
+          "example": {
+            "mgs": "Hello Dal!"
+          },
+          "allowEmptyValue": false
+        },
+        "responseCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 200,
+          "allowEmptyValue": false
+        },
+        "responseHeader": {
+          "type": "object",
+          "example": {
+            "Access-Control-Allow-Headers": [
+              "*"
+            ],
+            "Access-Control-Allow-Origin": [
+              "*"
+            ],
+            "Content-Length": [
+              "20"
+            ],
+            "Content-Type": [
+              "application/json"
+            ],
+            "Date": [
+              "Wed, 29 May 2019 11:16:15 GMT"
+            ]
+          },
+          "allowEmptyValue": false,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "responseLength": {
+          "type": "integer",
+          "format": "int32",
+          "example": 20,
+          "allowEmptyValue": false
+        },
+        "vdcID": {
+          "type": "string",
+          "example": "vdc0",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "SampleData"
+    },
+    "StartRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "some.id.token",
+          "allowEmptyValue": false
+        },
+        "vdcId": {
+          "type": "string",
+          "example": "vdc0",
+          "allowEmptyValue": false
+        },
+        "wlId": {
+          "type": "string",
+          "example": "5cfa626a37df1044d2c0064f",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "StartRequest"
+    },
+    "Workload": {
+      "type": "object",
+      "properties": {
+        "delay": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "allowEmptyValue": false
+        },
+        "executable": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string",
+          "example": "5cfa626a37df1044d2c0064f",
+          "allowEmptyValue": false
+        },
+        "iterations": {
+          "type": "integer",
+          "format": "int32",
+          "example": 20,
+          "allowEmptyValue": false
+        },
+        "requests": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/BenchmarkRequest"
+            }
+          }
+        },
+        "strategy": {
+          "type": "string",
+          "example": "sequential",
+          "allowEmptyValue": false
+        },
+        "threads": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "allowEmptyValue": false
+        },
+        "token": {
+          "type": "string",
+          "example": "some.id.token",
+          "allowEmptyValue": false
+        },
+        "warmup": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10,
+          "allowEmptyValue": false
+        }
+      },
+      "title": "Workload"
+    }
+  }
+}

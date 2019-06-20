@@ -1,5 +1,6 @@
 package de.tub.benchmarkscheduler.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -11,13 +12,15 @@ public class RawResult {
     private List<BenchmarkResponse> responses;
 
     private RequestMetaData metaData;
-
+    @ApiModelProperty(example = "fsaöfködsl-afköll")
     private String runnerId;
-
+    @ApiModelProperty(example = "fsaöfködsl")
     private String wlId;
 
+    @ApiModelProperty(example = "afköll")
     private String vdcId;
 
+    @ApiModelProperty(example = "unique_benchmark_id")
     @Id
     private String id;
 
@@ -62,8 +65,8 @@ public class RawResult {
         this.vdcId = vdcId;
     }
 
-    public String getId(){
-        if(this.id==null)this.id=runnerId+vdcId+wlId;
+    public String getId() {
+        if (this.id == null) this.id = runnerId + vdcId + wlId;
         return this.id;
     }
 }
