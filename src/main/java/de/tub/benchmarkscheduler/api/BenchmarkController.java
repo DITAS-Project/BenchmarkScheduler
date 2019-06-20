@@ -20,14 +20,17 @@
 
 package de.tub.benchmarkscheduler.api;
 
+import de.tub.benchmarkscheduler.model.BenchmarkResponse;
+import de.tub.benchmarkscheduler.model.RawResult;
 import de.tub.benchmarkscheduler.model.Workload;
+import de.tub.benchmarkscheduler.service.ResultService;
 import de.tub.benchmarkscheduler.service.workload.WorkloadDataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/benchmark")
 @RestController
@@ -37,9 +40,21 @@ public class BenchmarkController {
     @Autowired
     WorkloadDataService workloadService;
 
-    @ApiOperation(value = "returns an executable workload for the given id", response = Workload.class, produces = "application/json")
+    @Autowired
+    ResultService resultService;
+
+    @ApiOperation(value = "returns an executable workload for the given id", response = Workload.class, produces = "application/json", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "No workload for the given id found")
+    })
     @RequestMapping("/{runID}")
     public Workload getWorkload(@PathVariable String runID) {
         return workloadService.findByID(runID);
+    }
+@ApiOperation(value = "Endpoint for the Benchmark Agents to post the results ", httpMethod = "POST")
+    @RequestMapping(value = "/{runID}", method = RequestMethod.POST)
+    public void collectResults(@RequestBody RawResult result, @PathVariable String runID) {
+        resultService.save(result);
     }
 }

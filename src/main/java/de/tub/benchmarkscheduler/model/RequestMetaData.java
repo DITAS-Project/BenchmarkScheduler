@@ -1,15 +1,21 @@
 package de.tub.benchmarkscheduler.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class RequestMetaData {
 
-
+    @ApiModelProperty(example = "10")
     private int warmup;
+
+    @ApiModelProperty(example = "20")
     private int iterations;
 
-
+    @ApiModelProperty(example = "1")
     private int threads;
 
+    @ApiModelProperty(example = "0")
     private int delay;
+    @ApiModelProperty(example = "localhost:80")
     private String baseUrl;
 
 

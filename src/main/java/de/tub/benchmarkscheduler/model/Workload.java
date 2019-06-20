@@ -1,5 +1,6 @@
 package de.tub.benchmarkscheduler.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
@@ -12,22 +13,30 @@ public class Workload {
 
     @GeneratedValue
     @Id
+    @ApiModelProperty(example = "5cfa626a37df1044d2c0064f")
     private String id;
 
     private List<List<BenchmarkRequest>> requests;
 
+    @ApiModelProperty(example = "0")
     private int delay;
 
+    @ApiModelProperty(example = "20")
     private int iterations;
 
+    @ApiModelProperty(example = "10")
     private int warmup;
 
+    @ApiModelProperty(example = "sequential")
     private String strategy;
 
+    @ApiModelProperty(example = "some.id.token")
     private String token;
 
+    @ApiModelProperty(example = "1")
     private int threads;
 
+    @ApiModelProperty(example = "true")
     private boolean isExecutable;
 
     public List<List<BenchmarkRequest>> getRequests() {

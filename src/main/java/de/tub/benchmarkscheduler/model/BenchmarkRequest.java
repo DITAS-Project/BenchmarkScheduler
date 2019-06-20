@@ -1,6 +1,7 @@
 package de.tub.benchmarkscheduler.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,10 +14,24 @@ import java.util.UUID;
 public class BenchmarkRequest {
 
 
+    @ApiModelProperty(example = "e739b640-7885-51a9-8046-e68578ab6640")
     private String id= UUID.randomUUID().toString();
 
+    @ApiModelProperty(example = "{\"X-Ditas-Operationid\": [\n" +
+            "                \"\"\n" +
+            "            ],\n" +
+            "            \"X-Ditas-Requestid\": [\n" +
+            "                \"e739b640-7885-51a9-8046-e68578ab6640\"\n" +
+            "            ],\n" +
+            "            \"X-Ditas-Sample\": [\n" +
+            "                \"1\"\n" +
+            "            ]}")
     private Map<String, List<String>> requestHeader;
+
+    @ApiModelProperty(example = "GET")
     private String method;
+
+    @ApiModelProperty(example = "/ask")
     private String path;
 
     @JsonIgnore
