@@ -26,6 +26,7 @@ spec:
     requests:
       storage: 1Gi
 status: {}
+
 ---
 
 apiVersion: v1
@@ -298,6 +299,7 @@ spec:
     app: vdc-deployment
 
 ---
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -366,6 +368,7 @@ spec:
         persistentVolumeClaim:
           claimName: vdc-volume
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -380,6 +383,7 @@ spec:
     targetPort: 8081
   selector:
     app: scheduler
+
 ---
 
 apiVersion: extensions/v1beta1
@@ -388,29 +392,29 @@ metadata:
   namespace: benchmark
   annotations:
   labels:
-    io.kompose.service: scheduler
+    name: scheduler
+    app: scheduler
   name: scheduler
 spec:
   replicas: 1
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: scheduler
+        app: scheduler
     spec:
       containers:
       - env:
          - name: MONGO_URL
            value: http://mongo.benchmark.svc.cluster.local
-        image: durgen/benchmarkscheduler:0.0.1
+        image: durgen/benchmarkscheduler
         name: scheduler
         ports:
         - containerPort: 8081
-        resources: {}
+        imagePullPolicy: Always
       restartPolicy: Always
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -425,7 +429,9 @@ spec:
     targetPort: 27017
   selector:
     io.kompose.service: mongo
+
 ---
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
