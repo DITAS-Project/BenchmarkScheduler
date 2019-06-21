@@ -403,6 +403,8 @@ spec:
       - env:
          - name: MONGO_URL
            value: http://mongo.benchmark.svc.cluster.local
+         - name: JAVA_OPTIONS
+           value: "-Dspring.profiles.active=production"
         image: durgen/benchmarkscheduler:0.0.1
         name: scheduler
         ports:
