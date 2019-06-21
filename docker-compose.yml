@@ -10,6 +10,8 @@ services:
       - mongo:mongo
     depends_on:
       - mongo
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
   mongo:
     image: mongo:4.0-xenial
     ports:
