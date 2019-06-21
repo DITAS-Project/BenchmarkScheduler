@@ -28,6 +28,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.logging.Logger;
+
 @Configuration
 @EnableMongoRepositories(basePackages = "de.tub.benchmarkscheduler.repo")
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
@@ -43,6 +45,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public MongoClient mongoClient() {
+        Logger.getLogger("MongoConfig").info("MongoURL: "+ url);
         return new MongoClient( url, 27017);
     }
 

@@ -408,6 +408,8 @@ spec:
            value: http://mongo.benchmark.svc.cluster.local
          - name: JAVA_OPTIONS
            value: "-Dspring.profiles.active=production"
+         - name: SPRING_PROFILES_ACTIVE
+           value: production
         image: durgen/benchmarkscheduler
         name: scheduler
         ports:
