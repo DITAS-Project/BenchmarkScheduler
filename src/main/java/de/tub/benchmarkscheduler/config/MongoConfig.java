@@ -21,26 +21,32 @@
 package de.tub.benchmarkscheduler.config;
 
 import com.mongodb.MongoClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.logging.Logger;
+
 @Configuration
 @EnableMongoRepositories(basePackages = "de.tub.benchmarkscheduler.repo")
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class MongoConfig extends AbstractMongoConfiguration {
-
 
     @Override
     protected String getDatabaseName() {
         return "mongo";
     }
 
+    @Value("${spring.data.mongodb.host}")
+    String url;
+
     @Override
     public MongoClient mongoClient() {
-        return new MongoClient("127.0.0.1", 27017);
+        Logger.getLogger("MongoConfig").info("MongoURL: "+ url);
+        return new MongoClient( url, 27017);
     }
 
 }

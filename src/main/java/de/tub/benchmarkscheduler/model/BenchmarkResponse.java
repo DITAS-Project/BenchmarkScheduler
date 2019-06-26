@@ -22,7 +22,20 @@ public class BenchmarkResponse {
     private Map<String, List<String>> headers;
 
     @ApiModelProperty(example = "153")
-    private long duration;
+    private long latency;
+
+    @ApiModelProperty(example = "0")
+    private int thread;
+
+    @ApiModelProperty(example = "2")
+    private int iteration;
+
+    @ApiModelProperty(example = "200")
+    private int statusCode;
+
+    @ApiModelProperty(example = "false")
+    private boolean error;
+
 
     @ApiModelProperty(example = "e739b640-7885-51a9-8046-e68578ab6640")
     private String reqId;
@@ -44,12 +57,12 @@ public class BenchmarkResponse {
         this.headers = headers;
     }
 
-    public long getDuration() {
-        return duration;
+    public long getLatency() {
+        return latency;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
+    public void setLatency(long latency) {
+        this.latency = latency;
     }
 
     public String getReqId() {
@@ -58,5 +71,37 @@ public class BenchmarkResponse {
 
     public void setReqId(String reqId) {
         this.reqId = reqId;
+    }
+
+    public int getThread() {
+        return thread;
+    }
+
+    public void setThread(int thread) {
+        this.thread = thread;
+    }
+
+    public int getIteration() {
+        return iteration;
+    }
+
+    public void setIteration(int iteration) {
+        this.iteration = iteration;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 }

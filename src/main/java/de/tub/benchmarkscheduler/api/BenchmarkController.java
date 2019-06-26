@@ -52,7 +52,9 @@ public class BenchmarkController {
     public Workload getWorkload(@PathVariable String runID) {
         return workloadService.findByID(runID);
     }
-@ApiOperation(value = "Endpoint for the Benchmark Agents to post the results ", httpMethod = "POST")
+
+
+    @ApiOperation(value = "Endpoint for the Benchmark Agents to post the results ", httpMethod = "POST")
     @RequestMapping(value = "/{runID}", method = RequestMethod.POST)
     public void collectResults(@RequestBody RawResult result, @PathVariable String runID) {
         resultService.save(result);

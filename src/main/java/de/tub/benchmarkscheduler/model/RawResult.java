@@ -12,15 +12,17 @@ public class RawResult {
     private List<BenchmarkResponse> responses;
 
     private RequestMetaData metaData;
-    @ApiModelProperty(example = "fsaöfködsl-afköll")
-    private String runnerId;
-    @ApiModelProperty(example = "fsaöfködsl")
+
+    @ApiModelProperty(example = "150396")
+    private long totalRuntime;
+
+    @ApiModelProperty(example = "fsafdfkdfdsl")
     private String wlId;
 
-    @ApiModelProperty(example = "afköll")
+    @ApiModelProperty(example = "afkdfsall")
     private String vdcId;
 
-    @ApiModelProperty(example = "unique_benchmark_id")
+    @ApiModelProperty(example = "agent_id")
     @Id
     private String id;
 
@@ -41,12 +43,16 @@ public class RawResult {
         this.metaData = metaData;
     }
 
-    public String getRunnerId() {
-        return runnerId;
+    public long getTotalRuntime() {
+        return totalRuntime;
     }
 
-    public void setRunnerId(String runnerId) {
-        this.runnerId = runnerId;
+    public void setTotalRuntime(long totalRuntime) {
+        this.totalRuntime = totalRuntime;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getWlId() {
@@ -66,7 +72,6 @@ public class RawResult {
     }
 
     public String getId() {
-        if (this.id == null) this.id = runnerId + vdcId + wlId;
-        return this.id;
+        return id;
     }
 }

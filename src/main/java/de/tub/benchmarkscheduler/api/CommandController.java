@@ -48,7 +48,7 @@ public class CommandController {
     }
 
     @ApiOperation(value = "deletes all collected requests", httpMethod = "GET")
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void delete() {
         dataService.deleteAll();
     }
@@ -76,13 +76,11 @@ public class CommandController {
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     public ResponseEntity start(@RequestBody StartRequest body) {
 
-
         //existence check on the input parameters
         String wlId = body.getWlId();
         String vdcId= body.getVdcId();
         if (wlId == null|| wlId=="") return ResponseEntity.badRequest().body("missing workload_id");
         if (vdcId == null || vdcId=="") return ResponseEntity.badRequest().body("missing vdc_id");
-
 
         Workload excWl;
         try {
