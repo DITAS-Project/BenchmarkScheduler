@@ -410,7 +410,7 @@ spec:
            value: "-Dspring.profiles.active=production"
          - name: SPRING_PROFILES_ACTIVE
            value: production
-        image: durgen/benchmarkscheduler
+        image: durgen/benchmarkscheduler:0.0.5
         name: scheduler
         ports:
         - containerPort: 8081

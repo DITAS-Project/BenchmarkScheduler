@@ -18,17 +18,27 @@
  *
  */
 
-package de.tub.benchmarkscheduler.service;
+package de.tub.benchmarkscheduler;
 
-import de.tub.benchmarkscheduler.model.RawResult;
+import org.junit.Assert;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-public interface ResultService {
+public class TestHelper {
 
-void save(RawResult result);
+    public TestHelper() {
+    }
 
-RawResult getResultById(String id);
-
-List<RawResult> getAll();
+   public static String readToString(String filename) {
+        final StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(BenchmarkschedulerApplicationTests.class.getResourceAsStream(filename)))) {
+            reader.lines().forEach(sb::append);
+        } catch (IOException ex) {
+            Assert.fail("could not load json data");
+            ex.printStackTrace();
+        }
+        return sb.toString();
+    }
 }

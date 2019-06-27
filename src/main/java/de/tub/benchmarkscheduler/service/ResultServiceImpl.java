@@ -25,6 +25,8 @@ import de.tub.benchmarkscheduler.repo.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ResultServiceImpl implements ResultService {
 
@@ -40,5 +42,10 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public RawResult getResultById(String id) {
         return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<RawResult> getAll() {
+        return repo.findAll();
     }
 }

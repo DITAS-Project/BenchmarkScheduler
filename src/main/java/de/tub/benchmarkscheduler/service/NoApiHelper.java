@@ -22,7 +22,7 @@ package de.tub.benchmarkscheduler.service;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
+@Profile({"default", "local", "dev"})
 @Service
 public class NoApiHelper implements ApiHelper {
     @Override
