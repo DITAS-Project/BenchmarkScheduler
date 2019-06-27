@@ -22,25 +22,21 @@ package de.tub.benchmarkscheduler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.tub.benchmarkscheduler.api.CommandController;
+import de.tub.benchmarkscheduler.model.RawResult;
 import de.tub.benchmarkscheduler.model.SampleData;
 import de.tub.benchmarkscheduler.model.StartRequest;
-import de.tub.benchmarkscheduler.service.SampleDataService;
+import de.tub.benchmarkscheduler.model.Workload;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,16 +47,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CommandControllerTest {
+public class ApiTest {
 
     @Autowired
     MockMvc mvc;
 
     @ClassRule
     public static GenericContainer mongo = new FixedHostPortGenericContainer("mongo:4.0-xenial")
-            .withFixedExposedPort(27017,27017);
+            .withFixedExposedPort(27018, 27017);
 
-    String wlID;
+    static String wlID;
+    static String runID;
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -88,8 +85,12 @@ public class CommandControllerTest {
         Assert.assertNotNull(CommandController.class.getResourceAsStream("/SampleData.json"));
     }
 
+    /*
+    CommandController aka CC Tests
+     */
+
     @Test
-    public void testGetAll() throws Exception {
+    public void testCCGetAll() throws Exception {
         ResultActions perform = mvc.perform(get("/command/all"));
         perform.andExpect(status().isOk()).andExpect(mvcResult -> {
             List<SampleData> sampleDataList = Arrays.asList(mapper.readValue((mvcResult.getResponse().getContentAsString()), SampleData[].class));
@@ -100,7 +101,7 @@ public class CommandControllerTest {
     }
 
     @Test
-    public void testCreateAndStart() throws Exception {
+    public void testCCCreate() throws Exception {
         ResultActions perform = mvc.perform(post("/command/create?blueprintID=testBP"));
         perform.andExpect(status().is2xxSuccessful()).andExpect(mvcResult -> {
             String createdWlUrl = mvcResult.getResponse().getHeader("Location");
@@ -109,6 +110,11 @@ public class CommandControllerTest {
             wlID = split[split.length - 1];
             mvc.perform(get("/wl/" + wlID)).andExpect(status().isOk());
         });
+
+    }
+
+    @Test
+    public void testCCStart() throws Exception {
         StartRequest body = new StartRequest();
         body.setWlId(wlID);
         body.setVdcId(vdcId);
@@ -118,15 +124,14 @@ public class CommandControllerTest {
             String createdBenchUrl = mvcResult.getResponse().getHeader("Location");
             Assert.assertNotNull(createdBenchUrl);
             String[] split = createdBenchUrl.split("/");
-            String runID = split[split.length - 1];
+            runID = split[split.length - 1];
             mvc.perform(get("/benchmark/" + runID)).andExpect(status().isOk());
         });
     }
 
 
-
     @Test
-    public void testDeleteAll() throws Exception {
+    public void testCCDeleteAll() throws Exception {
         ResultActions perform = mvc.perform(delete("/command/delete"));
         perform.andExpect(status().isOk());
         ResultActions deleted = mvc.perform(get("/command/all"));
@@ -134,6 +139,51 @@ public class CommandControllerTest {
             List<SampleData> sampleDataList = Arrays.asList(mapper.readValue((mvcResult.getResponse().getContentAsString()), SampleData[].class));
             Assert.assertEquals(sampleDataList.size(), 0);
         });
+    }
+
+    /*
+    BenchmarkController aka BC tests
+     */
+
+
+    @Test
+    public void testBCGetWorkload() throws Exception {
+        ResultActions perform= mvc.perform((get("/benchmark/"+runID)));
+        perform.andExpect(status().isOk()).andExpect(mvcResult -> {
+            Workload result= mapper.readValue(mvcResult.getResponse().getContentAsString(), Workload.class);
+            Assert.assertNotNull(result);
+            Assert.assertEquals(result.getId(),runID);
+            Assert.assertTrue(result.isExecutable());
+        });
+    }
+
+    static final String resultId="someID";
+    static final String resultWL="someWLID";
+    static final String resultVdc= "someVDC";
+
+    @Test
+    public void testBCCollectResults() throws Exception{
+        RawResult testResult= new RawResult();
+        testResult.setId(resultId);
+        testResult.setWlId(resultWL);
+        testResult.setVdcId(resultVdc);
+
+        ResultActions perform= mvc.perform(post("/benchmark/"+ runID).contentType("application/json").content(mapper.writeValueAsString(testResult)));
+        perform.andExpect(status().is2xxSuccessful());
+
+    }
+
+    public void testBCGetAllResults() throws Exception {
+     ResultActions perform = mvc.perform(get("/benchmark/results"));
+     perform.andExpect(status().isOk()).andExpect(mvcResult -> {
+         List<RawResult> results= Arrays.asList(mapper.readValue(mvcResult.getResponse().getContentAsString(),RawResult[].class));
+         Assert.assertEquals(results.size(),0);
+         RawResult result= results.get(0);
+         Assert.assertNotNull(result);
+         Assert.assertEquals(result.getId(),resultId);
+         Assert.assertEquals(result.getVdcId(), resultVdc);
+         Assert.assertEquals(result.getWlId(), resultWL);
+     });
     }
 
 

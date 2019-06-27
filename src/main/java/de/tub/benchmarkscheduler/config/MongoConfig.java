@@ -43,10 +43,13 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Value("${spring.data.mongodb.host}")
     String url;
 
+    @Value("${spring.data.mongodb.port}")
+    int port;
+
     @Override
     public MongoClient mongoClient() {
-        Logger.getLogger("MongoConfig").info("MongoURL: "+ url);
-        return new MongoClient( url, 27017);
+        Logger.getLogger("MongoConfig").info("MongoURL: " + url);
+        return new MongoClient(url, port);
     }
 
 }
