@@ -1,6 +1,7 @@
 package de.tub.benchmarkscheduler.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -85,6 +86,7 @@ public class SampleData {
         this.id = id;
     }
 
+    @JsonGetter("request.header")
     public Map<String, List<String>> getRequestHeader() {
         return requestHeader;
     }
@@ -93,6 +95,7 @@ public class SampleData {
         this.requestHeader = requestHeader;
     }
 
+    @JsonGetter("request.method")
     public String getMethod() {
         return method;
     }
@@ -101,6 +104,7 @@ public class SampleData {
         this.method = method;
     }
 
+    @JsonGetter("request.path")
     public String getPath() {
         return path;
     }
@@ -109,6 +113,7 @@ public class SampleData {
         this.path = path;
     }
 
+    @JsonGetter("response.code")
     public Integer getResponseCode() {
         return responseCode;
     }
@@ -117,6 +122,7 @@ public class SampleData {
         this.responseCode = responseCode;
     }
 
+    @JsonGetter("response.length")
     public Integer getResponseLength() {
         return responseLength;
     }
@@ -125,6 +131,7 @@ public class SampleData {
         this.responseLength = responseLength;
     }
 
+    @JsonGetter("response.body")
     public String getResponseBody() {
         return responseBody;
     }
@@ -133,6 +140,7 @@ public class SampleData {
         this.responseBody = responseBody;
     }
 
+    @JsonGetter("response.header")
     public Map<String, List<String>> getResponseHeader() {
         return responseHeader;
     }
@@ -141,6 +149,7 @@ public class SampleData {
         this.responseHeader = responseHeader;
     }
 
+    @JsonGetter("vdc_id")
     public String getVdcID() {
         return vdcID;
     }
@@ -149,6 +158,7 @@ public class SampleData {
         this.vdcID = vdcID;
     }
 
+    @JsonGetter("blueprint_id")
     public String getBpId() {
         return bpId;
     }
