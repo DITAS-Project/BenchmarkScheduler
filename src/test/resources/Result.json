@@ -1,0 +1,35 @@
+{
+  "id": "test_agent",
+  "metaData": {
+    "baseUrl": "localhost:80",
+    "delay": 0,
+    "iterations": 20,
+    "threads": 1,
+    "warmup": 10
+  },
+  "responses": [
+    {
+      "body": "{\"mgs\": \"Hello Dal!\"}",
+      "error": false,
+      "headers": {
+        "X-Ditas-Operationid": [
+          ""
+        ],
+        "X-Ditas-Requestid": [
+          "e739b640-7885-51a9-8046-e68578ab6640"
+        ],
+        "X-Ditas-Sample": [
+          "1"
+        ]
+      },
+      "iteration": 2,
+      "latency": 153,
+      "reqId": "e739b640-7885-51a9-8046-e68578ab6640",
+      "statusCode": 200,
+      "thread": 0
+    }
+  ],
+  "totalRuntime": 150396,
+  "vdc_id": "test_vdc",
+  "workload_id": "test_workload"
+}
