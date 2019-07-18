@@ -1,8 +1,8 @@
-#DITAS - Benchmarkscheduler 
+# DITAS - Benchmarkscheduler 
 The Benchmarkscheduler is a service of the DITAS Framework to create and deploy benchmarks on the DITAS environment.
 ## Installing
 There are three ways to install the Benchmarkscheduler
-###docker-compose
+### docker-compose
 For the docker-compose approach, you can use the provided docker-composefile to run the project.
 
 start the project:
@@ -11,7 +11,7 @@ docker-compose up
 ```
 this command starts the benchmarkscheduler and a mongo db container to handle the data.
 
-###kubernetes deployment
+### kubernetes deployment
 The provided kubernetes deployment file starts the whole [tub-dummy-example](https://github.com/DITAS-Project/tub-dummy-example) plus the benchmarkscheduler. 
 First you need to configure the delpoyment file to fit your specific cluster environment.
 
@@ -35,15 +35,15 @@ To run the project:
 java -jar target/benchmarkscheduler-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=local
 ```
 
-##Usage
+## Usage
 
-###API
-####benchmark-controller
+### API
+#### benchmark-controller
 `GET` `/benchmark/results`
 
 Returns all benchmark results
 
-####command-controller
+#### command-controller
 `POST` `/command/create`
 
 Required Body
@@ -69,12 +69,12 @@ Starts a benchmark based on the given workload_id and the vdc_id. The token is o
 
 Returns an URL to the results in the header.
 
-####sampledata-controller
+#### sampledata-controller
 `GET` `/sd/all`
 
 Returns all saved Sampledata.
 
-####workload-controller
+#### workload-controller
 `DELETE` `/wl`
 
 Deletes all saved workloads.
