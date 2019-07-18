@@ -1,6 +1,6 @@
 {
   "id": "4b868184-01b5-54a5-93f6-3f450e26ee7c",
-  "requestHeader": {
+  "request.header": {
     "Accept": [
       "*/*"
     ],
@@ -47,12 +47,12 @@
       "130.149.158.248"
     ]
   },
-  "method": "GET",
-  "path": "/ask",
-  "responseCode": 200,
-  "responseLength": 20,
-  "responseBody": "{\"mgs\":\"Hello Dal!\"}",
-  "responseHeader": {
+  "request.method": "GET",
+  "request.path": "/ask",
+  "response.code": 200,
+  "response.length": 20,
+  "response.body": "{\"mgs\":\"Hello Dal!\"}",
+  "response.header": {
     "Access-Control-Allow-Headers": [
       "*"
     ],
@@ -69,6 +69,6 @@
       "Wed, 26 Jun 2019 13:05:19 GMT"
     ]
   },
-  "vdcID": null,
-  "bpId": null
+  "vdc_id": null,
+  "blueprint_id": null
 }

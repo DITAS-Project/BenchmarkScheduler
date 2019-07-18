@@ -71,7 +71,7 @@ public class ApiTest {
         String sampleData = readToString("/SampleData.json");
 
         data = mapper.readValue(sampleData, SampleData.class);
-        mvc.perform(post("/collect").content(sampleData).contentType("application/json")).andExpect(status().isOk());
+        mvc.perform(post("/sd/collect").content(sampleData).contentType("application/json")).andExpect(status().isOk());
 
 
     }
@@ -91,7 +91,7 @@ public class ApiTest {
 
     @Test
     public void testCCGetAll() throws Exception {
-        ResultActions perform = mvc.perform(get("/command/all"));
+        ResultActions perform = mvc.perform(get("/sd/all"));
         perform.andExpect(status().isOk()).andExpect(mvcResult -> {
             List<SampleData> sampleDataList = Arrays.asList(mapper.readValue((mvcResult.getResponse().getContentAsString()), SampleData[].class));
             Assert.assertEquals(sampleDataList.size(), 1);
@@ -102,7 +102,7 @@ public class ApiTest {
 
     @Test
     public void testCCCreate() throws Exception {
-        ResultActions perform = mvc.perform(post("/command/create?blueprintID=testBP"));
+        ResultActions perform = mvc.perform(post("/command/create?blueprint_id=testBP"));
         perform.andExpect(status().is2xxSuccessful()).andExpect(mvcResult -> {
             String createdWlUrl = mvcResult.getResponse().getHeader("Location");
             Assert.assertNotNull(createdWlUrl);
@@ -132,9 +132,9 @@ public class ApiTest {
 
     @Test
     public void testCCDeleteAll() throws Exception {
-        ResultActions perform = mvc.perform(delete("/command/delete"));
+        ResultActions perform = mvc.perform(delete("/sd/delete"));
         perform.andExpect(status().isOk());
-        ResultActions deleted = mvc.perform(get("/command/all"));
+        ResultActions deleted = mvc.perform(get("/sd/all"));
         deleted.andExpect(status().isOk()).andExpect(mvcResult -> {
             List<SampleData> sampleDataList = Arrays.asList(mapper.readValue((mvcResult.getResponse().getContentAsString()), SampleData[].class));
             Assert.assertEquals(sampleDataList.size(), 0);
