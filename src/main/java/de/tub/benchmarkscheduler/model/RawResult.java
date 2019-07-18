@@ -1,5 +1,7 @@
 package de.tub.benchmarkscheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,9 +19,11 @@ public class RawResult {
     private long totalRuntime;
 
     @ApiModelProperty(example = "fsafdfkdfdsl")
+    @JsonAlias("workload_id")
     private String wlId;
 
     @ApiModelProperty(example = "afkdfsall")
+    @JsonAlias("vdc_id")
     private String vdcId;
 
     @ApiModelProperty(example = "agent_id")
@@ -55,6 +59,7 @@ public class RawResult {
         this.id = id;
     }
 
+    @JsonGetter("workload_id")
     public String getWlId() {
         return wlId;
     }
@@ -63,6 +68,7 @@ public class RawResult {
         this.wlId = wlId;
     }
 
+    @JsonGetter("vdc_id")
     public String getVdcId() {
         return vdcId;
     }
