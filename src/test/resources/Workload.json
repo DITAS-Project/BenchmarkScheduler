@@ -1,6 +1,6 @@
 {
   "delay": 0,
-  "executable": true,
+  "executable": false,
   "id": "test",
   "iterations": 20,
   "requests": [
