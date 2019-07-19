@@ -24,7 +24,7 @@ If  not you first should setup your cluster and configure the deloyment file to 
 ### local using mvn
 To build the project run:
 ```
-mvn clean package
+mvn clean package -DskipTests
 ```
 You need a mongo instance running at localhost:27017 for the project to run successfully or if you want to 
  use a mongo instance on another address you need to change the application-local.properties file in the ressource folder.
