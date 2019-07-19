@@ -20,15 +20,13 @@
 
 package de.tub.benchmarkscheduler.service;
 
-import de.tub.benchmarkscheduler.model.RawResult;
-
-import java.util.List;
-
-public interface ResultService {
-
-void save(RawResult result);
-
-RawResult getResultById(String id);
-
-List<RawResult> getAll();
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+@Profile("production")
+@Service
+public class ClusterApiHelper implements ApiHelper {
+    @Override
+    public String getVDCUrl(String vdcId) {
+        return "https://vdc.ditasbench.k8s.ise-apps.de";
+    }
 }

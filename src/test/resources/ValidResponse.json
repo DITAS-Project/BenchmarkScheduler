@@ -1,0 +1,24 @@
+{
+  "responseCode": 200,
+  "responseLength": 20,
+  "responseBody": "{\"mgs\":\"Hello Dal!\"}",
+  "responseHeader": {
+    "Access-Control-Allow-Headers": [
+      "*"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Content-Length": [
+      "20"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Date": [
+      "Wed, 29 May 2019 11:16:15 GMT"
+    ]
+  },
+  "id": "e739b640-7885-51a9-8046-e68578ab6640"
+
+}

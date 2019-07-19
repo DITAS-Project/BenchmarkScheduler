@@ -21,6 +21,7 @@
 package de.tub.benchmarkscheduler.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.annotations.ApiModelProperty;
 
 public class StartRequest {
@@ -36,7 +37,7 @@ public class StartRequest {
     @JsonAlias("workload_id")
     private String wlId;
 
-
+    @JsonGetter("vdc_id")
     public String getVdcId() {
         return vdcId;
     }
@@ -53,6 +54,7 @@ public class StartRequest {
         this.token = token;
     }
 
+    @JsonGetter("workload_id")
     public String getWlId() {
         return wlId;
     }

@@ -1,22 +1,24 @@
 package de.tub.benchmarkscheduler.api;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import de.tub.benchmarkscheduler.exceptions.WorkloadAlreadyExecuabaleException;
 import de.tub.benchmarkscheduler.exceptions.WorkloadNotFoundException;
-import de.tub.benchmarkscheduler.model.SampleData;
 import de.tub.benchmarkscheduler.model.StartRequest;
 import de.tub.benchmarkscheduler.model.Workload;
-import de.tub.benchmarkscheduler.service.SampleDataService;
 import de.tub.benchmarkscheduler.service.workload.WorkloadGeneratorService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.InetAddress;
 import java.net.URI;
-import java.util.List;
+import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 @RestController
@@ -26,42 +28,37 @@ public class CommandController {
 
     private final Logger logger = Logger.getLogger("CommandController" + Thread.currentThread().getName());
 
+    @Bean
+    public String hostname() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostAddress();
+    }
+
     @Value("${server.servlet.context-path}")
     private String contextPath;
-
-    @Value("${server.address}")
-    private String address;
 
     @Value("${server.port}")
     private int port;
 
-    @Autowired
-    SampleDataService dataService;
 
     @Autowired
     WorkloadGeneratorService workloadService;
 
-    @ApiOperation(value = "returns all collected requests", response = SampleData[].class, produces = "application/json", httpMethod = "GET")
-    @RequestMapping("/all")
-    public List<SampleData> getAll() {
-        return dataService.findAll();
-    }
-
-    @ApiOperation(value = "deletes all collected requests", httpMethod = "GET")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void delete() {
-        dataService.deleteAll();
-    }
 
     @ApiOperation(value = "generates a workload based on the given blueprint", httpMethod = "POST")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "workload created")
     })
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    public ResponseEntity create(@RequestParam String blueprintID) {
-        String wlId = workloadService.generateDefault(blueprintID);
-        logger.info(address + " " + port + " " + contextPath);
-        return ResponseEntity.created(URI.create("http://" + address + ":" + port + contextPath + "/wl/" + wlId)).build();
+    public ResponseEntity create(@RequestParam String blueprint_id    ) {
+        String wlId = workloadService.generateDefault(blueprint_id);
+        String baseUrl= null;
+        try {
+            baseUrl = hostname();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        logger.info(baseUrl + " " + port + " " + contextPath);
+        return ResponseEntity.created(URI.create("http://" + baseUrl + ":" + port + contextPath + "/wl/" + wlId)).build();
 
 
     }
@@ -76,11 +73,18 @@ public class CommandController {
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     public ResponseEntity start(@RequestBody StartRequest body) {
 
+        String baseUrl=null;
+        try {
+            baseUrl = hostname();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
         //existence check on the input parameters
         String wlId = body.getWlId();
-        String vdcId= body.getVdcId();
-        if (wlId == null|| wlId=="") return ResponseEntity.badRequest().body("missing workload_id");
-        if (vdcId == null || vdcId=="") return ResponseEntity.badRequest().body("missing vdc_id");
+        String vdcId = body.getVdcId();
+        if (wlId == null || wlId == "") return ResponseEntity.badRequest().body("missing workload_id");
+        if (vdcId == null || vdcId == "") return ResponseEntity.badRequest().body("missing vdc_id");
 
         Workload excWl;
         try {
@@ -88,12 +92,12 @@ public class CommandController {
         } catch (WorkloadNotFoundException e) {
             return ResponseEntity.badRequest().body("workload " + wlId + " not found");
         } catch (WorkloadAlreadyExecuabaleException e) {
-            return ResponseEntity.status(302).header("Location", ("http://" + address + ":" + port + contextPath + "/benchmark/" + e.getRunId())).build();
+            return ResponseEntity.status(302).header("Location", ("http://" + baseUrl + ":" + port + contextPath + "/benchmark/" + e.getRunId())).build();
         }
 
 
         //set the url for the created concrete Workload == RunID
-        return ResponseEntity.created(URI.create("http://" + address + ":" + port + contextPath + "/benchmark/" + excWl.getId())).build();
+        return ResponseEntity.created(URI.create("http://" + baseUrl + ":" + port + contextPath + "/benchmark/" + excWl.getId())).build();
 
 
     }

@@ -32,6 +32,39 @@
     }
   ],
   "paths": {
+    "/benchmark/results": {
+      "get": {
+        "tags": [
+          "benchmark-controller"
+        ],
+        "summary": "Endpoint to get all Benchmark Results",
+        "operationId": "getAllResultsUsingGET_7",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RawResult"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/benchmark/{runID}": {
       "get": {
         "tags": [
@@ -122,82 +155,6 @@
         }
       }
     },
-    "/collect": {
-      "post": {
-        "tags": [
-          "sample-data-controller"
-        ],
-        "summary": "Endpoint used to collect real Request data from the RM",
-        "operationId": "receiveSampleUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SampleData"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/command/all": {
-      "get": {
-        "tags": [
-          "command-controller"
-        ],
-        "summary": "returns all collected requests",
-        "operationId": "getAllUsingGET_7",
-        "produces": [
-          "*/*",
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/SampleData"
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
     "/command/create": {
       "post": {
         "tags": [
@@ -241,32 +198,6 @@
           },
           "404": {
             "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/command/delete": {
-      "get": {
-        "tags": [
-          "command-controller"
-        ],
-        "summary": "deletes all collected requests",
-        "operationId": "deleteUsingGET_7",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
         }
       }
@@ -322,6 +253,108 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sd/all": {
+      "get": {
+        "tags": [
+          "sample-data-controller"
+        ],
+        "summary": "returns all collected requests",
+        "operationId": "getAllUsingGET_7",
+        "produces": [
+          "*/*",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SampleData"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/sd/collect": {
+      "post": {
+        "tags": [
+          "sample-data-controller"
+        ],
+        "summary": "Endpoint used to collect real Request data from the RM",
+        "operationId": "receiveSampleUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SampleData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sd/delete": {
+      "delete": {
+        "tags": [
+          "sample-data-controller"
+        ],
+        "summary": "deletes all collected requests",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -476,10 +509,9 @@
           },
           "allowEmptyValue": false
         },
-        "duration": {
-          "type": "integer",
-          "format": "int64",
-          "example": 153,
+        "error": {
+          "type": "boolean",
+          "example": false,
           "allowEmptyValue": false
         },
         "headers": {
@@ -503,9 +535,33 @@
             }
           }
         },
+        "iteration": {
+          "type": "integer",
+          "format": "int32",
+          "example": 2,
+          "allowEmptyValue": false
+        },
+        "latency": {
+          "type": "integer",
+          "format": "int64",
+          "example": 153,
+          "allowEmptyValue": false
+        },
         "reqId": {
           "type": "string",
           "example": "e739b640-7885-51a9-8046-e68578ab6640",
+          "allowEmptyValue": false
+        },
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 200,
+          "allowEmptyValue": false
+        },
+        "thread": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
           "allowEmptyValue": false
         }
       },
@@ -516,7 +572,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "example": "unique_benchmark_id",
+          "example": "agent_id",
           "allowEmptyValue": false
         },
         "metaData": {
@@ -528,19 +584,20 @@
             "$ref": "#/definitions/BenchmarkResponse"
           }
         },
-        "runnerId": {
-          "type": "string",
-          "example": "fsaöfködsl-afköll",
+        "totalRuntime": {
+          "type": "integer",
+          "format": "int64",
+          "example": 150396,
           "allowEmptyValue": false
         },
         "vdcId": {
           "type": "string",
-          "example": "afköll",
+          "example": "afkdfsall",
           "allowEmptyValue": false
         },
         "wlId": {
           "type": "string",
-          "example": "fsaöfködsl",
+          "example": "fsafdfkdfdsl",
           "allowEmptyValue": false
         }
       },

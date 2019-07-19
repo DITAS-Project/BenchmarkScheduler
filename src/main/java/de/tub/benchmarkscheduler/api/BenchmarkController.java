@@ -32,6 +32,9 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 @RequestMapping("/benchmark")
 @RestController
 @Api(value = "Benchmark endpoint", description = "endpoint used by the benchmark runners")
@@ -58,5 +61,12 @@ public class BenchmarkController {
     @RequestMapping(value = "/{runID}", method = RequestMethod.POST)
     public void collectResults(@RequestBody RawResult result, @PathVariable String runID) {
         resultService.save(result);
+        Logger.getLogger("benchmark-controller").info(result.getId());
+    }
+
+    @ApiOperation(value = "Endpoint to get all Benchmark Results", response = RawResult[].class, produces = "application/json", httpMethod = "GET")
+    @RequestMapping("/results")
+    public List<RawResult> getAllResults() {
+        return resultService.getAll();
     }
 }

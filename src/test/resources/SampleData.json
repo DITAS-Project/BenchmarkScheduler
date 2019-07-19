@@ -1,0 +1,74 @@
+{
+  "id": "4b868184-01b5-54a5-93f6-3f450e26ee7c",
+  "request.header": {
+    "Accept": [
+      "*/*"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate"
+    ],
+    "Cache-Control": [
+      "no-cache"
+    ],
+    "Postman-Token": [
+      "2502731f-c653-494d-99ea-cbd080643451"
+    ],
+    "User-Agent": [
+      "PostmanRuntime/7.6.0"
+    ],
+    "X-Ditas-Operationid": [
+      ""
+    ],
+    "X-Ditas-Requestid": [
+      "4b868184-01b5-54a5-93f6-3f450e26ee7c"
+    ],
+    "X-Ditas-Sample": [
+      "1"
+    ],
+    "X-Forwarded-For": [
+      "130.149.158.248, 130.149.22.192"
+    ],
+    "X-Forwarded-Host": [
+      "vdc.ditasbench.k8s.ise-apps.de"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Prefix": [
+      "/"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ],
+    "X-Forwarded-Server": [
+      "traefik-ingress-controller-hzxqw"
+    ],
+    "X-Real-Ip": [
+      "130.149.158.248"
+    ]
+  },
+  "request.method": "GET",
+  "request.path": "/ask",
+  "response.code": 200,
+  "response.length": 20,
+  "response.body": "{\"mgs\":\"Hello Dal!\"}",
+  "response.header": {
+    "Access-Control-Allow-Headers": [
+      "*"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Content-Length": [
+      "20"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Date": [
+      "Wed, 26 Jun 2019 13:05:19 GMT"
+    ]
+  },
+  "vdc_id": null,
+  "blueprint_id": null
+}

@@ -15,6 +15,7 @@ public class RequestMetaData {
 
     @ApiModelProperty(example = "0")
     private int delay;
+
     @ApiModelProperty(example = "localhost:80")
     private String baseUrl;
 
