@@ -24,8 +24,8 @@ public class AnalysisController {
 
     @ApiOperation(value = "returns the results for a given timespan", response = RawResult[].class, produces = "application/json", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "lower", value = "lower bound for result query",format = "dd-MM-yyyy", example = "01-02-1990" ),
-            @ApiImplicitParam( name = "upper", value = "upper bound for result query",format = "dd-MM-yyyy", example = "01-01-2020")
+            @ApiImplicitParam( name = "lower", value = "lower date bound for result query in dd-MM-yyyy format"),
+            @ApiImplicitParam( name = "upper", value = "upper date bound for result query in dd-MM-yyyy format")
     })
     @RequestMapping
     public List<RawResult> getByDates(@RequestParam
