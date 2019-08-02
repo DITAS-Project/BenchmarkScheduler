@@ -2,10 +2,12 @@ package de.tub.benchmarkscheduler.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.List;
 
 @Document
@@ -29,6 +31,9 @@ public class RawResult {
     @ApiModelProperty(example = "agent_id")
     @Id
     private String id;
+
+    @JsonIgnore
+    private Date date;
 
 
     public List<BenchmarkResponse> getResponses() {
@@ -79,5 +84,13 @@ public class RawResult {
 
     public String getId() {
         return id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

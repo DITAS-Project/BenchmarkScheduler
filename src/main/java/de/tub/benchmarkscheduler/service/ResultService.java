@@ -22,6 +22,7 @@ package de.tub.benchmarkscheduler.service;
 
 import de.tub.benchmarkscheduler.model.RawResult;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ResultService {
@@ -31,4 +32,6 @@ void save(RawResult result);
 RawResult getResultById(String id);
 
 List<RawResult> getAll();
+
+List<RawResult> getBetweenDates(Date start, Date end);
 }

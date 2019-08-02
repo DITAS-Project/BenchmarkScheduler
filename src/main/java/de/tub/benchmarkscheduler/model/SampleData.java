@@ -45,7 +45,7 @@ public class SampleData {
     @JsonAlias("response.length")
     private Integer responseLength;
 
-    @ApiModelProperty(example = "{\"mgs\":\"Hello Dal!\"}")
+    @ApiModelProperty(example = "\"{\"mgs\":\"Hello Dal!\"}\"")
     @JsonAlias("response.body")
     private String responseBody;
 
