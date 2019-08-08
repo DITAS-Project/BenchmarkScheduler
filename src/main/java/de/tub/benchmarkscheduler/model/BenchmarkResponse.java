@@ -1,5 +1,6 @@
 package de.tub.benchmarkscheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public class BenchmarkResponse {
     @ApiModelProperty(example = "{\"mgs\":\"Hello Dal!\"}")
     private String body;
 
+    @JsonUnwrapped
     @ApiModelProperty(example = "{\"X-Ditas-Operationid\": [\n" +
             "                \"\"\n" +
             "            ],\n" +

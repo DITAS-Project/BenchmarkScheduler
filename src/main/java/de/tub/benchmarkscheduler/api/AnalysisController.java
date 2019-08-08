@@ -1,5 +1,7 @@
 package de.tub.benchmarkscheduler.api;
 
+import de.tub.benchmarkscheduler.model.BenchmarkResponse;
+import de.tub.benchmarkscheduler.model.FlatRawResponse;
 import de.tub.benchmarkscheduler.model.RawResult;
 import de.tub.benchmarkscheduler.service.ResultService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -32,7 +36,36 @@ public class AnalysisController {
                                @DateTimeFormat(pattern = "dd-MM-yyyy") Date lower,
                                @RequestParam
                                @DateTimeFormat(pattern = "dd-MM-yyyy")Date upper) {
+        return service.getBetweenDates(lower,upper);
 
-       return service.getBetweenDates(lower,upper);
+    }
+
+    @RequestMapping(value = "/csv",produces = "text/csv")
+    public List<FlatRawResponse> getCSV(@RequestParam
+                       @DateTimeFormat(pattern = "dd-MM-yyyy") Date lower,
+                       @RequestParam
+                       @DateTimeFormat(pattern = "dd-MM-yyyy")Date upper){
+        List<FlatRawResponse> ret= new LinkedList<>();
+        for(RawResult r:service.getBetweenDates(lower,upper))ret.addAll(flatten(r));
+        return ret;
+
+
+    }
+
+    public List<FlatRawResponse> flatten(RawResult raw){
+        List<FlatRawResponse> ret= new LinkedList<>();
+        for(BenchmarkResponse br: raw.getResponses()){
+            FlatRawResponse add= new FlatRawResponse(raw.getTotalRuntime(),raw.getWlId(),raw.getVdcId(),raw.getId());
+            add.setMetaData(raw.getMetaData());
+            add.setBody(br.getBody());
+            add.setError(br.isError());
+            add.setIteration(br.getIteration());
+            add.setLatency(br.getLatency());
+            add.setReqId(br.getReqId());
+            add.setStatusCode(br.getStatusCode());
+            add.setThread(br.getThread());
+            add.setHeader(br.getHeaders().toString());
+            ret.add(add);
+        }return ret;
     }
 }
