@@ -25,6 +25,7 @@ import de.tub.benchmarkscheduler.repo.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class ResultServiceImpl implements ResultService {
 
     @Override
     public void save(RawResult result) {
+        result.setDate(new Date());
         repo.save(result);
     }
 
@@ -48,4 +50,11 @@ public class ResultServiceImpl implements ResultService {
     public List<RawResult> getAll() {
         return repo.findAll();
     }
+
+    @Override
+    public List<RawResult> getBetweenDates(Date start, Date end) {
+        return repo.findAllByDateBetween(start,end);
+    }
+
+
 }

@@ -18,20 +18,28 @@
  *
  */
 
-package de.tub.benchmarkscheduler.service;
+package de.tub.benchmarkscheduler.config;
 
-import de.tub.benchmarkscheduler.model.RawResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.tub.benchmarkscheduler.util.CsvConverter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Date;
 import java.util.List;
 
-public interface ResultService {
+@Configuration
+class AppConfig implements WebMvcConfigurer {
 
-void save(RawResult result);
+    private final ObjectMapper objectMapper;
 
-RawResult getResultById(String id);
+    AppConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
-List<RawResult> getAll();
-
-List<RawResult> getBetweenDates(Date start, Date end);
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new CsvConverter<>(objectMapper));
+    }
 }
+
