@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class AnalysisController {
             @ApiImplicitParam( name = "lower", value = "lower date bound for result query in dd-MM-yyyy format"),
             @ApiImplicitParam( name = "upper", value = "upper date bound for result query in dd-MM-yyyy format")
     })
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<RawResult> getByDates(@RequestParam
                                @DateTimeFormat(pattern = "dd-MM-yyyy") Date lower,
                                @RequestParam
@@ -39,14 +40,22 @@ public class AnalysisController {
         return service.getBetweenDates(lower,upper);
 
     }
-
-    @RequestMapping(value = "/csv",produces = "text/csv")
+    @ApiOperation(value = "returns the results for a given timespan in csv Format", response = RawResult[].class, produces = "text/csv", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "lower", value = "lower date bound for result query in dd-MM-yyyy format"),
+            @ApiImplicitParam( name = "upper", value = "upper date bound for result query in dd-MM-yyyy format")
+    })
+    @RequestMapping(value = "/csv",produces = "text/csv", method = RequestMethod.GET)
     public List<FlatRawResponse> getCSV(@RequestParam
                        @DateTimeFormat(pattern = "dd-MM-yyyy") Date lower,
                        @RequestParam
                        @DateTimeFormat(pattern = "dd-MM-yyyy")Date upper){
         List<FlatRawResponse> ret= new LinkedList<>();
+
+        //for better parsing to csv the raw results get mapped so one result only has one BenchmarkResponse
         for(RawResult r:service.getBetweenDates(lower,upper))ret.addAll(flatten(r));
+
+
         return ret;
 
 
