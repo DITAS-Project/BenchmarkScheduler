@@ -10,7 +10,7 @@
     </parent>
     <groupId>de.tub</groupId>
     <artifactId>benchmarkscheduler</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>benchmarkscheduler</name>
     <description>Demo project for Spring Boot</description>
 

@@ -1,7 +1,9 @@
 package de.tub.benchmarkscheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestMetaData {
 
     @ApiModelProperty(example = "10")

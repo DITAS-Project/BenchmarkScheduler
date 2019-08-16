@@ -1,9 +1,6 @@
 package de.tub.benchmarkscheduler.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,10 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 @Document
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RawResult {
-    @JsonUnwrapped
+
     private List<BenchmarkResponse> responses;
-    @JsonUnwrapped
+
     private RequestMetaData metaData;
 
     @ApiModelProperty(example = "150396")

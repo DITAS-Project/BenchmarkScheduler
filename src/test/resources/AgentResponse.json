@@ -1,0 +1,286 @@
+{
+  "id": "00467898-0418-4115-99fc-2a82194cce50",
+  "metaData": {
+    "delay": 10,
+    "executable": true,
+    "id": "5d56b07094b4ba6afed859b9-some_id",
+    "iterations": 20,
+    "requests": [
+      [
+        {
+          "id": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+          "method": "GET",
+          "path": "http://localhost:80/ask",
+          "requestHeader": {
+            "X-Forwarded-Prefix": [
+              "/"
+            ],
+            "X-Ditas-Requestid": [
+              "4b868184-01b5-54a5-93f6-3f450e26ee7c"
+            ],
+            "X-Benchmark": [
+              "1"
+            ],
+            "Accept": [
+              "*/*"
+            ],
+            "Benchmark-ID": [
+              "4b868184-01b5-54a5-93f6-3f450e26ee7c"
+            ],
+            "User-Agent": [
+              "PostmanRuntime/7.6.0"
+            ],
+            "X-Ditas-Sample": [
+              "1"
+            ],
+            "X-Forwarded-Host": [
+              "vdc.ditasbench.k8s.ise-apps.de"
+            ],
+            "X-Forwarded-Proto": [
+              "https"
+            ],
+            "Accept-Encoding": [
+              "gzip, deflate"
+            ],
+            "X-Forwarded-Port": [
+              "443"
+            ],
+            "Cache-Control": [
+              "no-cache"
+            ],
+            "X-Ditas-Operationid": [
+              ""
+            ],
+            "X-Forwarded-For": [
+              "130.149.158.248, 130.149.22.192"
+            ],
+            "Postman-Token": [
+              "2502731f-c653-494d-99ea-cbd080643451"
+            ],
+            "X-Real-Ip": [
+              "130.149.158.248"
+            ],
+            "X-Forwarded-Server": [
+              "traefik-ingress-controller-hzxqw"
+            ],
+            "X-DITAS-Benchmark": [
+              "5d56b07094b4ba6afed859b9-some_id"
+            ],
+            "Authorization": [
+              "bearer null"
+            ]
+          },
+          "rid": "19"
+        }
+      ]
+    ],
+    "strategy": "sequential",
+    "threads": 1,
+    "warmup": 10
+  },
+  "vdc_id": "",
+  "workload_id": "5d56b07094b4ba6afed859b9-some_id",
+  "totalRuntime": 973,
+  "responses": [
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 0,
+      "latency": 99,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 1,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 2,
+      "latency": 6,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 3,
+      "latency": 4,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 4,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 5,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 6,
+      "latency": 4,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 7,
+      "latency": 7,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 8,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 9,
+      "latency": 5,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 10,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 11,
+      "latency": 4,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 12,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 13,
+      "latency": 2,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 14,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 15,
+      "latency": 2,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 16,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 17,
+      "latency": 2,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 18,
+      "latency": 3,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    },
+    {
+      "reqId": "fa7aef82-5de6-489c-bfa3-1da821603d52",
+      "thread": 1,
+      "iteration": 19,
+      "latency": 4,
+      "statusCode": -1,
+      "body": "",
+      "headers": {},
+      "error": true
+    }
+  ]
+}

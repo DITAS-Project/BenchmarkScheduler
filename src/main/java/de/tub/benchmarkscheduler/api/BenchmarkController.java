@@ -20,6 +20,8 @@
 
 package de.tub.benchmarkscheduler.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.tub.benchmarkscheduler.model.BenchmarkResponse;
 import de.tub.benchmarkscheduler.model.RawResult;
 import de.tub.benchmarkscheduler.model.Workload;
@@ -59,9 +61,12 @@ public class BenchmarkController {
 
     @ApiOperation(value = "Endpoint for the Benchmark Agents to post the results ", httpMethod = "POST")
     @RequestMapping(value = "/{runID}", method = RequestMethod.POST)
-    public void collectResults(@RequestBody RawResult result, @PathVariable String runID) {
-        resultService.save(result);
-        Logger.getLogger("benchmark-controller").info(result.getId());
+    public void collectResults(@RequestBody JsonNode result, @PathVariable String runID) throws Exception{
+        Logger.getLogger("benchmark-controller").info(result.toString());
+        ObjectMapper mapper= new ObjectMapper();
+        RawResult resultObject= mapper.readValue(result.toString(),RawResult.class);
+        resultService.save(resultObject);
+        Logger.getLogger("benchmark-controller").info(resultObject.getMetaData().getWarmup()+"");
     }
 
     @ApiOperation(value = "Endpoint to get all Benchmark Results", response = RawResult[].class, produces = "application/json", httpMethod = "GET")
