@@ -39,20 +39,22 @@ java -jar target/benchmarkscheduler-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=
 
 ### API
 #### benchmark-controller
-`GET` `/benchmark/results`
+`GET` `/benchmark/results?upper=DD-MM-YYYY&lower=DD-MM-YYYY`
 
-Returns all benchmark results
+Returns all benchmark for a given timespan, both upper and lower bound are required.
+
+`GET` `/benchmark/results/csv?upper=DD-MM-YYYY&lower=DD-MM-YYYY`
+
+Returns all benchmark for a given timespan in csv format, both upper and lower bound are required.
 
 #### command-controller
-`POST` `/command/create`
+`POST` `/command/create?bleprint_id=some_id`
 
 Required Body
 ```
-{
-"blueprint_id": "some_id"
-}
+none
 ```
-Returns a workload_id in the header which can be used to start a benchmark
+Returns a workload_id in the header which can be used to start a benchmark. 'blueprint_id' is a required field.
 
 `POST` `/command/start`
 
@@ -60,7 +62,7 @@ Required Body
 
 ```
 {
-  "token": "some.id.token",
+  "token": "optional",
   "vdc_id": "vdc0",
   "workload_id": "5cfa626a37df1044d2c0064f"
 }
