@@ -89,7 +89,7 @@ Returns the workload to the given id if present.
 
 Returns all available workloads.
 
-## Build with
+## Built with
 * Apache Maven
 * SpringBoot
 * Swagger
