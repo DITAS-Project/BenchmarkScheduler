@@ -89,6 +89,11 @@ Returns the workload to the given id if present.
 
 Returns all available workloads.
 
+## Build with
+* Apache Maven
+* SpringBoot
+* Swagger
+
 ## License
 
 This project is licensed under the Apache 2.0 - see the [LICENSE](LICENSE) file for details.
